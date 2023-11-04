@@ -6,9 +6,10 @@
         options: string[]
     }
 
-    import { Card, Button, Radio, Alert } from 'flowbite-svelte';
+    import {Card, Button, Radio, Alert, Star} from 'flowbite-svelte';
     import { onMount } from "svelte";
     import { fade, slide } from "svelte/transition";
+    import { StarSolid, StarOutline } from 'flowbite-svelte-icons';
 
     export let questions: Question[];
     export let randomize: boolean = true;
@@ -117,17 +118,16 @@
 </script>
 
 <div class="max-w-2xl mx-auto">
-    <Card size="lg" class="rounded-sm">
+    <Card size="lg" class="rounded-sm relative">
         {#if opt_id < questions.length}
-            {#if flagged}
-                <Button size="xs" color="red" class="rounded-sm focus:ring-0" on:click={flagQuestion}>
-                    Unflag
-                </Button>
-            {:else}
-                <Button size="xs" color="green" class="rounded-sm focus:ring-0" on:click={flagQuestion}>
-                    Flag
-                </Button>
-            {/if}
+
+            <div class="absolute top-0 right-0 focus:ring-0">
+                {#if flagged}
+                    <StarSolid class="h-6 w-6 p-1 text-yellow-400" on:click={flagQuestion}/>
+                {:else}
+                    <StarOutline class="h-6 w-6 p-1" on:click={flagQuestion}/>
+                {/if}
+            </div>
 
             <p class="font-medium text-xl text-gray-800 pb-4">
                 {questions[opt_id].question}

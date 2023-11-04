@@ -2,7 +2,6 @@
     import Question from "$lib/Question.svelte";
     import { Toggle, Select, Label } from "flowbite-svelte";
 
-    let advanced: boolean;
     let filtered_questions;
     let selected: string = '000'
     let randomize: boolean = true;
@@ -42,7 +41,7 @@
             </Label>
         </div>
         <div>
-            <Label>flagged only
+            <Label>Bookmarked
                 <Toggle color="red" bind:checked={flaggedOnly}></Toggle>
             </Label>
         </div>
@@ -53,12 +52,14 @@
             </Label>
         </div>
     </div>
-    <!--    <div class="py-4">-->
-    <!--    <Toggle bind:checked={advanced}>Advanced</Toggle>-->
-    <!--    </div>-->
-    {#key filtered_questions}
-        {#if filtered_questions.length > 0}
-            <Question questions={filtered_questions} randomize={randomize} flaggedOnly={flaggedOnly}/>
-        {/if}
+
+    {#key flaggedOnly}
+        {#key randomize}
+            {#key filtered_questions}
+                {#if filtered_questions.length > 0}
+                    <Question questions={filtered_questions} randomize={randomize} flaggedOnly={flaggedOnly}/>
+                {/if}
+            {/key}
+        {/key}
     {/key}
 </div>
