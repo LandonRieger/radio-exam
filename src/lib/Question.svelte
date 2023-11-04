@@ -96,7 +96,7 @@
             document.cookie = `flaggedQuestions=${JSON.stringify(flaggedQuestions)}`
             flagged = true;
         } else {
-            flaggedQuestions.filter((x) => x != questions[opt_id].id)
+            flaggedQuestions = flaggedQuestions.filter((x) => x != questions[opt_id].id)
             document.cookie = `flaggedQuestions=${JSON.stringify(flaggedQuestions)}`
             flagged = false;
         }
