@@ -138,7 +138,7 @@
             </p>
 
             <ul
-                class="bg-white rounded-lg dark:bg-gray-800 dark:border-gray-600 divide-y divide-gray-200 dark:divide-gray-600">
+                class="dark:bg-gray-800 dark:border-gray-600 divide-y divide-gray-200 dark:divide-gray-600">
                 {#each options as option, index}
                     <li>
                         <Radio class="p-3 text-base" bind:group={answer} value={option}>{option}</Radio>
@@ -159,7 +159,7 @@
                     <div>
                         {correct} / {total}
                         <span
-                            class={percent > 70 ? (percent > 80 ? "text-lime-600" : "text-yellow-600") : "text-red-700"}
+                            class={percent >= 70 ? (percent >= 80 ? "text-green-500" : "text-yellow-400") : "text-red-600"}
                             >({total > 0 ? Number(percent).toFixed(0) : "-"} %)</span>
                     </div>
                 </div>
@@ -176,7 +176,7 @@
             </div>
         {:else}
             <div class="text-center py-8">
-                <p class="font-bold text-lg text-gray-800">End of Questions</p>
+                <p class="font-bold text-lg text-gray-800 dark:text-gray-100">End of Questions</p>
             </div>
         {/if}
     </Card>

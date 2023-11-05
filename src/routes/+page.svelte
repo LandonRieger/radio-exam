@@ -29,9 +29,9 @@
     export let data;
 </script>
 
-<div class="max-w-2xl mx-auto px-4 lg:px-0">
+<div class="max-w-2xl mx-auto px-4 pb-12 lg:px-0">
     <div class="py-8">
-        <p class="text-3xl font-bold">Amateur Radio Exam</p>
+        <p class="text-3xl font-bold text-gray-800 dark:text-gray-100">Amateur Radio Exam</p>
     </div>
 
     <div class="flex flex-row my-4 justify-between items-start space-x-8">
