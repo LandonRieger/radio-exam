@@ -49,7 +49,27 @@
             }
             total = correct + wrong;
             percent = (correct / total) * 100;
+            log_answer(questions[opt_id], correct)
         }
+    }
+
+    function log_answer(question, correct) {
+        const cookieValue = document.cookie
+            .split("; ")
+            .find((row) => row.startsWith("stats="))
+            ?.split("=")[1];
+
+        console.log('stats cookie', cookieValue)
+        let stats = JSON.parse(cookieValue);
+        let cat = question.id.split('-')[1]
+        console.log('stats cat', stats[cat])
+        if (correct) {
+            stats[cat] = {answered: stats[cat].answered + 1, correct: stats[cat].correct + 1}
+        } else {
+            stats[cat] = {answered: stats[cat].answered + 1, correct: stats[cat].correct}
+        }
+        console.log('stats cat', stats[cat])
+        document.cookie = `stats=${JSON.stringify(stats)}`;
     }
 
     function generate() {
