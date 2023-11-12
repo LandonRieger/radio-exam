@@ -6,6 +6,7 @@ const config = {
     extend: {},
   },
   plugins: [require('flowbite/plugin')],
+  safelist: ['bg-green-500']
 };
 
 module.exports = config;

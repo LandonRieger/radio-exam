@@ -49,26 +49,25 @@
             }
             total = correct + wrong;
             percent = (correct / total) * 100;
-            log_answer(questions[opt_id], correct)
+            log_answer(questions[opt_id], response)
         }
     }
 
-    function log_answer(question, correct) {
+    function log_answer(question: Question, correct: boolean | undefined) {
         const cookieValue = document.cookie
             .split("; ")
             .find((row) => row.startsWith("stats="))
             ?.split("=")[1];
 
-        console.log('stats cookie', cookieValue)
         let stats = JSON.parse(cookieValue);
-        let cat = question.id.split('-')[1]
-        console.log('stats cat', stats[cat])
+        console.log(stats)
+        let idx = stats.findIndex((x) => x.value === question.id.split('-')[1])
+        console.log(idx)
+        stats[idx].answered++
         if (correct) {
-            stats[cat] = {answered: stats[cat].answered + 1, correct: stats[cat].correct + 1}
-        } else {
-            stats[cat] = {answered: stats[cat].answered + 1, correct: stats[cat].correct}
+            stats[idx].correct++
         }
-        console.log('stats cat', stats[cat])
+        console.log(stats)
         document.cookie = `stats=${JSON.stringify(stats)}`;
     }
 

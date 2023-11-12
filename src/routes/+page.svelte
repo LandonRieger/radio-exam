@@ -1,5 +1,6 @@
 <script lang="ts">
     import Question from "$lib/Question.svelte";
+    import Statistics from "$lib/Statistics.svelte";
     import { Toggle, Select, Label, Modal, Button } from "flowbite-svelte";
     import { ChartOutline } from "flowbite-svelte-icons";
     import { onMount } from "svelte";
@@ -21,8 +22,6 @@
         { value: "008", name: "Interference" },
     ];
     $: {
-        // console.log(data.basic[0].id.split('-')[1])
-        // console.log(selected)
         if (selected === "000") {
             filtered_questions = data.basic;
         } else {
@@ -38,13 +37,17 @@
             .find((row) => row.startsWith("stats="))
             ?.split("=")[1];
 
-        console.log("stats cookie", cookieValue);
         if (cookieValue == undefined) {
-            console.log("creating stats cookie");
-            stats = {};
-            for (let i = 0; i < 9; i++) {
-                stats[String(i).padStart(3, 0)] = { answered: 0, correct: 0 };
+            stats = [];
+            for (let i = 1; i < 9; i++) {
+                stats.push({
+                    value: String(i).padStart(3, 0),
+                    answered: 0,
+                    correct: 0,
+                    category: categories.filter((x) => x.value === String(i).padStart(3, 0))[0].name,
+                });
             }
+            console.log('stats', stats)
             document.cookie = `stats=${JSON.stringify(stats)}`;
         }
     });
@@ -91,18 +94,10 @@
 </div>
 
 <Modal
-    title="Terms of Service"
+    title="Stats"
     bind:open={defaultModal}
     autoclose
     outsideclose
     backdropClass="fixed inset-0 z-40 bg-gray-100 dark:bg-gray-900 bg-opacity-95 dark:bg-opacity-80">
-    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-        With less than a month to go before the European Union enacts new consumer privacy laws for its citizens,
-        companies around the world are updating their terms of service agreements to comply.
-    </p>
-    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-        The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant to
-        ensure a common set of data rights in the European Union. It requires organizations to notify users as soon as
-        possible of high-risk data breaches that could personally affect them.
-    </p>
+    <Statistics />
 </Modal>
