@@ -4,6 +4,7 @@
     import { Toggle, Select, Label, Modal, Button } from "flowbite-svelte";
     import { ChartOutline } from "flowbite-svelte-icons";
     import { onMount } from "svelte";
+    import { slide, fade } from "svelte/transition";
 
     let filtered_questions;
     let selected: string = "000";
@@ -47,7 +48,6 @@
                     category: categories.filter((x) => x.value === String(i).padStart(3, 0))[0].name,
                 });
             }
-            console.log('stats', stats)
             document.cookie = `stats=${JSON.stringify(stats)}`;
         }
     });
@@ -62,23 +62,36 @@
         <div>
             <Label
                 >Randomize
-                <Toggle color="red" class="mt-2" bind:checked={randomize}></Toggle>
+                <Toggle color="green" class="mt-2" bind:checked={randomize}></Toggle>
             </Label>
         </div>
         <div>
             <Label
                 >Bookmarked
-                <Toggle color="red" class="mt-2" bind:checked={flaggedOnly}></Toggle>
+                <Toggle color="green" class="mt-2" bind:checked={flaggedOnly}></Toggle>
             </Label>
         </div>
         <div class="flex-grow">
             <Label>
                 Select a category
-                <Select class="mt-2" items={categories} bind:value={selected} />
+                <Select
+                    class="mt-2"
+                    defaultClass={"text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"}
+                    items={categories}
+                    bind:value={selected} />
             </Label>
         </div>
         <div class="self-end">
-            <ChartOutline strokeWidth="1.5" class="h-11 w-11 text-gray-500" on:click={() => (defaultModal = true)} />
+            <button on:click={() => (defaultModal = true)}>
+                <svg width="30" height="40">
+                    <g transform="scale(1 -1) translate(0, -40)">
+                        <rect width="9" height="40" x="0" class="fill-green-500" />
+                        <rect width="9" height="25" x="10" class="fill-green-400" />
+                        <rect width="9" height="12" x="20" class="fill-green-300" />
+                    </g>
+                </svg>
+            </button>
+            <!--            <ChartOutline strokeWidth="1.0" class="h-11 w-11 text-gray-500" on:click={() => (defaultModal = true)} />-->
         </div>
     </div>
 
@@ -93,11 +106,17 @@
     {/key}
 </div>
 
-<Modal
-    title="Stats"
-    bind:open={defaultModal}
-    autoclose
-    outsideclose
-    backdropClass="fixed inset-0 z-40 bg-gray-100 dark:bg-gray-900 bg-opacity-95 dark:bg-opacity-80">
-    <Statistics />
-</Modal>
+{#if defaultModal}
+    <div transition:fade={{ duration: 250 }}>
+        <Modal
+            title="Stats"
+            bind:open={defaultModal}
+            autoclose
+            outsideclose
+            backdropClass="fixed inset-0 z-40 bg-gray-100 dark:bg-gray-900 bg-opacity-95 dark:bg-opacity-80">
+            <!--            <div transition:slide={{ duration: 250, delay: 1000 }}>-->
+            <Statistics />
+            <!--            </div>-->
+        </Modal>
+    </div>
+{/if}

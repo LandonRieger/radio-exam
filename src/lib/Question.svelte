@@ -33,8 +33,6 @@
     let response: boolean | undefined;
     let unused_options = Array.from(Array(questions.length).keys());
     let filtered_unused: number[] = [];
-    // let previous_options: string[] = []
-    // let previous_question: number
     let opt_id: number = unused_options[idx];
     let flagged: boolean = false;
 
@@ -60,14 +58,11 @@
             ?.split("=")[1];
 
         let stats = JSON.parse(cookieValue);
-        console.log(stats)
         let idx = stats.findIndex((x) => x.value === question.id.split('-')[1])
-        console.log(idx)
         stats[idx].answered++
         if (correct) {
             stats[idx].correct++
         }
-        console.log(stats)
         document.cookie = `stats=${JSON.stringify(stats)}`;
     }
 
@@ -75,9 +70,6 @@
         answer = undefined;
         answered = false;
         response = undefined;
-
-        // previous_question = opt_id
-        // previous_options = options
 
         if (flaggedOnly) {
             filtered_unused = unused_options.filter((i) => flaggedQuestions.includes(questions[i].id));
@@ -146,7 +138,7 @@
         {#if opt_id < questions.length}
             <div class="absolute top-0 right-0 focus:ring-0">
                 {#if flagged}
-                    <StarSolid class="h-6 w-6 p-1 text-yellow-400" on:click={flagQuestion} />
+                    <StarSolid class="h-6 w-6 p-1 text-green-500" on:click={flagQuestion} />
                 {:else}
                     <StarOutline class="h-6 w-6 p-1" on:click={flagQuestion} />
                 {/if}

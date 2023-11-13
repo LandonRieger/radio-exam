@@ -23,12 +23,11 @@
             ?.split("=")[1];
         stats = JSON.parse(cookieValue);
         stats = stats.map((v) => ({ ...v, wrong: v.answered - v.correct, percent: (v.correct / v.answered) * 100 }));
-        statsSorted = stats.toSorted((a, b) => (a.correct / a.answered) - (b.correct / b.answered));
-        console.log('sorted', statsSorted)
+        statsSorted = stats.toSorted((a, b) => (b.correct / (b.answered)) - (a.correct / (a.answered)));
     });
 </script>
 
-<div class="flex flex-row justify-between">
+<div class="flex flex-row justify-between mb-6">
     <div></div>
     <div class="text-center text-gray-700 dark:text-gray-100">
         <p class="text-3xl font-medium">{totalAns}</p>
@@ -47,11 +46,13 @@
             padding={{ top: 0, bottom: 20, left: 115 }}
             x={"percent"}
             y={"category"}
+            yDomain={statsSorted.map(a => a.category)}
+            xDomain={[0, 100]}
             yScale={scaleBand().paddingInner(0.05)}
             data={statsSorted}>
             <!-- Components go here -->
             <Svg>
-                <AxisX baseline={false} snapTicks={true} />
+                <AxisX baseline={false} snapTicks={true}/>
                 <AxisY gridlines={false} />
                 <BarStacked />
             </Svg>
