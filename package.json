@@ -29,6 +29,7 @@
   },
   "type": "module",
   "dependencies": {
+    "@vercel/analytics": "^1.2.2",
     "d3-scale-chromatic": "^3.0.0",
     "layercake": "^8.0.2"
   }
